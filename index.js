@@ -19,7 +19,8 @@ var WheelView = React.createClass({
     },
     handleOnChange(event){
         if(this.props.onItemChange){
-            this.props.onItemChange(event.nativeEvent.index);
+            var nextIndex = this.props.onItemChange(event.nativeEvent.index);
+            this.updateSelectedIndex(nextIndex);
         }
     },
     previous: function(){
@@ -34,6 +35,13 @@ var WheelView = React.createClass({
             React.findNodeHandle(this.refs.wheel),
             UIManager.RCTWheelView.Commands.next,
             null,
+        );
+    },
+    updateSelectedIndex: function(index){
+        UIManager.dispatchViewManagerCommand(
+            React.findNodeHandle(this.refs.wheel),
+            UIManager.RCTWheelView.Commands.updateCurrentIndex,
+            [index],
         );
     },
     render(){

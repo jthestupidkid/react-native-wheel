@@ -21,6 +21,7 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
     public static final String REACT_CLASS = "RCTWheelView";
     public static final int COMMAND_PREVIOUS = 1;
     public static final int COMMAND_NEXT = 2;
+    public static final int COMMAND_UPDATE_CURRENT_INDEX = 3;
 
     @Override
     public String getName() {
@@ -79,7 +80,9 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
                 "previous",
                 COMMAND_PREVIOUS,
                 "next",
-                COMMAND_NEXT);
+                COMMAND_NEXT,
+                "updateCurrentIndex",
+                COMMAND_UPDATE_CURRENT_INDEX);
     }
 
     @Override
@@ -91,6 +94,10 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
             }
             case COMMAND_NEXT: {
                 root.next();
+                return;
+            }
+            case COMMAND_UPDATE_CURRENT_INDEX: {
+                root.setSelectedIndex(args.getInt(0));
                 return;
             }
             default:
