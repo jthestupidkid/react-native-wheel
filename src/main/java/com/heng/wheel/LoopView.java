@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -196,6 +197,7 @@ public class LoopView extends View {
         String as[] = new String[itemsVisible];
         change = (int) (totalScrollY / (lineSpacingMultiplier * maxTextHeight));
         preCurrentIndex = selectedIndex + change % items.size();
+
         if (!isLoop) {
             if (preCurrentIndex < 0) {
                 preCurrentIndex = 0;
@@ -292,7 +294,9 @@ public class LoopView extends View {
                 startTime = System.currentTimeMillis();
                 cancelFuture();
                 previousY = event.getRawY();
+                totalScrollY = 0;
                 break;
+
             case MotionEvent.ACTION_MOVE:
                 float dy = previousY - event.getRawY();
                 previousY = event.getRawY();
@@ -309,6 +313,7 @@ public class LoopView extends View {
                         totalScrollY = (int) bottom;
                     }
                 }
+                invalidate();
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -323,13 +328,11 @@ public class LoopView extends View {
 
                     if ((System.currentTimeMillis() - startTime) > 120) {
                         smoothScroll(ACTION.DRAG);
-                    } else {
-                        smoothScroll(ACTION.CLICK);
+                        invalidate();
                     }
                 }
                 break;
         }
-        invalidate();
         return true;
     }
 
@@ -343,8 +346,8 @@ public class LoopView extends View {
             } else {
                 mOffset = -mOffset;
             }
+            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
         }
-        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public void next() {
@@ -361,6 +364,8 @@ public class LoopView extends View {
             } else {
                 mOffset = (int) (-mOffset + itemHeight);
             }
+            mOffset = mOffset * itemOffset;
+            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
         } else {
             if (selectedItem < items.size() - 1) {
                 float itemHeight = lineSpacingMultiplier * maxTextHeight;
@@ -370,10 +375,10 @@ public class LoopView extends View {
                 } else {
                     mOffset = (int) (-mOffset + itemHeight);
                 }
+                mOffset = mOffset * itemOffset;
+                mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
             }
         }
-        mOffset = mOffset * itemOffset;
-        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public void previous() {
@@ -390,6 +395,8 @@ public class LoopView extends View {
             } else {
                 mOffset = (int) (-mOffset - itemHeight);
             }
+            mOffset = mOffset * itemOffset;
+            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
         } else {
             if (selectedItem > 0) {
                 float itemHeight = lineSpacingMultiplier * maxTextHeight;
@@ -399,10 +406,10 @@ public class LoopView extends View {
                 } else {
                     mOffset = (int) (-mOffset - itemHeight);
                 }
+                mOffset = mOffset * itemOffset;
+                mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
             }
         }
-        mOffset = mOffset * itemOffset;
-        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public void snapTo(int targetItem) {
@@ -425,7 +432,7 @@ public class LoopView extends View {
 
     protected final void scrollBy(float velocityY) {
         cancelFuture();
-        // 修改这个值可以改变滑行速度
+
         int velocityFling = 20;
         mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
     }

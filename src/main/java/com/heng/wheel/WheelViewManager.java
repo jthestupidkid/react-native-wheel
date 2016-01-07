@@ -13,9 +13,6 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import java.util.ArrayList;
 import java.util.Map;
 
-
-/**
- */
 public class WheelViewManager extends SimpleViewManager<LoopView> {
 
     public static final String REACT_CLASS = "RCTWheelView";
@@ -79,7 +76,7 @@ public class WheelViewManager extends SimpleViewManager<LoopView> {
         return MapBuilder.of(
                 "previous",
                 COMMAND_PREVIOUS,
-                "next",
+               "next",
                 COMMAND_NEXT,
                 "snapTo",
                 COMMAND_SNAP_TO);
