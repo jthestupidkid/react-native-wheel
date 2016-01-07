@@ -20,7 +20,7 @@ var WheelView = React.createClass({
     handleOnChange(event){
         if(this.props.onItemChange){
             var nextIndex = this.props.onItemChange(event.nativeEvent.index);
-            this.snapTo(nextIndex);
+            setTimeout(() => { this.snapTo(nextIndex) },  350);
         }
     },
     previous: function(){
