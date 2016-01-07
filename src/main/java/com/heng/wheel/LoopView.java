@@ -40,7 +40,7 @@ public class LoopView extends View {
 
     int maxTextWidth;
 
-    int maxTextHeight;
+    int maxTextHeight = 45;
     int colorGray = 0xffafafaf;
     int colorBlack = 0xff313131;
 
@@ -185,10 +185,6 @@ public class LoopView extends View {
             int textWidth = rect.width();
             if (textWidth > maxTextWidth) {
                 maxTextWidth = textWidth;
-            }
-            int textHeight = rect.height();
-            if (textHeight > maxTextHeight) {
-                maxTextHeight = textHeight;
             }
         }
     }
