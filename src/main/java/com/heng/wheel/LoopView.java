@@ -99,7 +99,6 @@ public class LoopView extends View {
     }
 
     private void initLoopView(Context context) {
-//        Log.d("wheel", "initLoopView");
         this.context = context;
         handler = new MessageHandler(this);
         gestureDetector = new GestureDetector(context, new LoopViewGestureListener(this));
@@ -141,7 +140,7 @@ public class LoopView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        Log.d("wheel", "onMeasure widthMeasureSpec = " + getMeasuredWidth() + " heightMeasureSpec = " + getMeasuredHeight());
+
         remeasure();
         mViewWidth = getMeasuredWidth();
         setMeasuredDimension(mViewWidth, mViewHeight);
@@ -151,7 +150,6 @@ public class LoopView extends View {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-//        Log.d("wheel", "onLayout left = " + left + " top = " + top + " right = " + right + " bottom = " + bottom);
     }
 
     private void remeasure() {
@@ -215,7 +213,7 @@ public class LoopView extends View {
         }
 
         int j2 = (int) (totalScrollY % (lineSpacingMultiplier * maxTextHeight));
-        // 设置as数组中每个元素的值
+
         int k1 = 0;
         while (k1 < itemsVisible) {
             int l1 = preCurrentIndex - (itemsVisible / 2 - k1);
@@ -241,11 +239,10 @@ public class LoopView extends View {
         int j1 = 0;
         while (j1 < itemsVisible) {
             canvas.save();
-            // L(弧长)=α（弧度）* r(半径) （弧度制）
-            // 求弧度--> (L * π ) / (π * r)   (弧长X派/半圆周长)
+
             float itemHeight = maxTextHeight * lineSpacingMultiplier;
             double radian = ((itemHeight * j1 - j2) * Math.PI) / halfCircumference;
-            // 弧度转换成角度(把半圆以Y轴为轴心向右转90度，使其处于第一象限及第四象限
+
             float angle = (float) (90D - (radian / Math.PI) * 180D);
             if (angle >= 90F || angle <= -90F) {
                 canvas.restore();
@@ -254,7 +251,6 @@ public class LoopView extends View {
                 canvas.translate(0.0F, translateY);
                 canvas.scale(1.0F, (float) Math.sin(radian));
                 if (translateY <= firstLineY && maxTextHeight + translateY >= firstLineY) {
-                    // 条目经过第一条线
                     canvas.save();
                     canvas.clipRect(0, 0, mViewWidth, firstLineY - translateY);
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintOuterText);
@@ -264,7 +260,6 @@ public class LoopView extends View {
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintCenterText);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
-                    // 条目经过第二条线
                     canvas.save();
                     canvas.clipRect(0, 0, mViewWidth, secondLineY - translateY);
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintCenterText);
@@ -274,12 +269,10 @@ public class LoopView extends View {
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintOuterText);
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
-                    // 中间条目
                     canvas.clipRect(0, 0, mViewWidth, (int) (itemHeight));
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintCenterText);
                     selectedItem = items.indexOf(as[j1]);
                 } else {
-                    // 其他条目
                     canvas.clipRect(0, 0, mViewWidth, (int) (itemHeight));
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintOuterText);
                 }
@@ -355,6 +348,10 @@ public class LoopView extends View {
     }
 
     public void next() {
+      next(1);
+    }
+
+    public void next(int itemOffset) {
         cancelFuture();
         if (isLoop) {
             float itemHeight = lineSpacingMultiplier * maxTextHeight;
@@ -364,7 +361,6 @@ public class LoopView extends View {
             } else {
                 mOffset = (int) (-mOffset + itemHeight);
             }
-            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
         } else {
             if (selectedItem < items.size() - 1) {
                 float itemHeight = lineSpacingMultiplier * maxTextHeight;
@@ -374,12 +370,17 @@ public class LoopView extends View {
                 } else {
                     mOffset = (int) (-mOffset + itemHeight);
                 }
-                mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
             }
         }
+        mOffset = mOffset * itemOffset;
+        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
     public void previous() {
+      previous(1);
+    }
+
+    public void previous(int itemOffset) {
         cancelFuture();
         if (isLoop) {
             float itemHeight = lineSpacingMultiplier * maxTextHeight;
@@ -389,7 +390,6 @@ public class LoopView extends View {
             } else {
                 mOffset = (int) (-mOffset - itemHeight);
             }
-            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
         } else {
             if (selectedItem > 0) {
                 float itemHeight = lineSpacingMultiplier * maxTextHeight;
@@ -399,9 +399,28 @@ public class LoopView extends View {
                 } else {
                     mOffset = (int) (-mOffset - itemHeight);
                 }
-                mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
             }
         }
+        mOffset = mOffset * itemOffset;
+        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
+    }
+
+    public void snapTo(int targetItem) {
+      if (isLoop) {
+        int itemDifference = selectedItem - targetItem;
+        if (itemDifference >= 0) {
+          previous(itemDifference);
+        } else {
+          next(Math.abs(itemDifference));
+        }
+      } else {
+        int itemDifference = selectedItem - targetItem;
+        if (itemDifference >= 0) {
+          previous(itemDifference);
+        } else {
+          next(Math.abs(itemDifference));
+        }
+      }
     }
 
     protected final void scrollBy(float velocityY) {
