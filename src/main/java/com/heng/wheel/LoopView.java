@@ -412,21 +412,17 @@ public class LoopView extends View {
         }
     }
 
-    public void snapTo(int targetItem) {
-      if (isLoop) {
-        int itemDifference = selectedItem - targetItem;
-        if (itemDifference >= 0) {
-          previous(itemDifference);
-        } else {
-          next(Math.abs(itemDifference));
-        }
-      } else {
-        int itemDifference = selectedItem - targetItem;
-        if (itemDifference >= 0) {
-          previous(itemDifference);
-        } else {
-          next(Math.abs(itemDifference));
-        }
+    public void snapTo(final int targetItem) {
+      if (selectedItem != targetItem) {
+        new CountDownTimer(200, 200){
+          public void onTick(long millis){
+          }
+          public void onFinish(){
+            totalScrollY = 0;
+            setSelectedIndex(targetItem);
+            invalidate();
+          }
+        }.start();
       }
     }
 

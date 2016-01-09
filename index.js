@@ -19,33 +19,36 @@ var WheelView = React.createClass({
     },
     handleOnChange(event){
         if(this.props.onItemChange){
-            var eventIndex = event.nativeEvent.index;
-            var nextIndex = this.props.onItemChange(eventIndex);
-            if (eventIndex !== nextIndex) {
-              setTimeout(() => { this.snapTo(nextIndex) },  350);
+            if(!this.props.onItemChange(event.nativeEvent.index)){
+              this.snapTo(this.props.selectedIndex);
             }
         }
     },
-    previous: function(){
+    previous(){
         UIManager.dispatchViewManagerCommand(
             React.findNodeHandle(this.refs.wheel),
             UIManager.RCTWheelView.Commands.previous,
             null,
         );
     },
-    next: function(){
+    next(){
         UIManager.dispatchViewManagerCommand(
             React.findNodeHandle(this.refs.wheel),
             UIManager.RCTWheelView.Commands.next,
             null,
         );
     },
-    snapTo: function(index){
+    snapTo(index){
         UIManager.dispatchViewManagerCommand(
             React.findNodeHandle(this.refs.wheel),
             UIManager.RCTWheelView.Commands.snapTo,
             [index],
         );
+    },
+    componentWillReceiveProps(nextProps){
+      if (nextProps.selectedIndex !== this.props.selectedIndex) {
+        this.snapTo(nextProps.selectedIndex);
+      }
     },
     render(){
         return <NativeWheelView {...this.props} onChange={this.handleOnChange} ref={WHEELVIEW_REF}/>;
