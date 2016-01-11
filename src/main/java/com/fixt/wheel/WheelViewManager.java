@@ -1,4 +1,4 @@
-package com.fixt.wheel;
+package co.fixt.wheel;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;

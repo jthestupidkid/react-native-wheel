@@ -39,7 +39,7 @@ dependencies {
 
 ```java
 ...
-import com.fixt.wheel.WheelPackage;
+import co.fixt.wheel.WheelPackage;
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
