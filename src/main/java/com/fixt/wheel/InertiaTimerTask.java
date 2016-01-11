@@ -1,4 +1,4 @@
-package com.heng.wheel;
+package com.fixt.wheel;
 
 import java.util.TimerTask;
 

@@ -39,7 +39,7 @@ dependencies {
 
 ```java
 ...
-import com.heng.wheel.WheelPackage;
+import com.fixt.wheel.WheelPackage;
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
@@ -195,6 +195,6 @@ https://github.com/weidongjian/androidWheelView
 
 ## Run Renderings
 <center>
-    <img src="https://github.com/shexiaoheng/react-native-wheel/blob/master/Screenshot/wheel.gif"
+    <img src="https://github.com/fixt/react-native-wheel/blob/master/Screenshot/wheel.gif"
     width="300" height="450"/>
 </center>

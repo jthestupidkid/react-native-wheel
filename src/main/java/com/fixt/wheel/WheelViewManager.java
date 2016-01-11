@@ -1,4 +1,4 @@
-package com.heng.wheel;
+package com.fixt.wheel;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;

@@ -1,4 +1,4 @@
-package com.heng.wheel;
+package com.fixt.wheel;
 
 class OnItemSelectedRunnable implements Runnable {
     final LoopView loopView;

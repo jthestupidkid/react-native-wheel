@@ -1,4 +1,4 @@
-package com.heng.wheel;
+package com.fixt.wheel;
 
 import android.os.Handler;
 import android.os.Message;

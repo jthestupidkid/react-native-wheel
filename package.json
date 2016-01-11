@@ -1,6 +1,6 @@
 {
   "name": "react-native-wheel",
-  "version": "1.0.8",
+  "version": "0.0.1",
   "description": "android wheel view for react-native",
   "main": "index.js",
   "scripts": {
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shexiaoheng/react-native-wheel.git"
+    "url": "git+https://github.com/fixt/react-native-wheel.git"
   },
   "keywords": [
     "react-native-wheel"
   ],
-  "author": "heng",
+  "author": "heng and Isaac Madwed",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shexiaoheng/react-native-wheel/issues"
+    "url": "https://github.com/fixt/react-native-wheel/issues"
   },
-  "homepage": "https://github.com/shexiaoheng/react-native-wheel#readme"
+  "homepage": "https://github.com/fixt/react-native-wheel#readme"
 }

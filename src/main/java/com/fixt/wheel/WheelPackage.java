@@ -1,4 +1,4 @@
-package com.heng.wheel;
+package com.fixt.wheel;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
