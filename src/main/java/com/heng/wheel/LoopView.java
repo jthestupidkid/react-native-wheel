@@ -222,9 +222,15 @@ public class LoopView extends View {
             if (isLoop) {
                 if (l1 < 0) {
                     l1 = l1 + items.size();
+                    if (l1 < 0) {
+                      l1 = l1 + items.size();
+                    }
                 }
                 if (l1 > items.size() - 1) {
                     l1 = l1 - items.size();
+                    if (l1 > items.size() - 1) {
+                      l1 = l1 - items.size();
+                    }
                 }
                 as[k1] = items.get(l1);
             } else if (l1 < 0) {
@@ -273,7 +279,10 @@ public class LoopView extends View {
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
                     canvas.clipRect(0, 0, mViewWidth, (int) (itemHeight));
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintCenterText);
-                    selectedItem = items.indexOf(as[j1]);
+                    int startIndex = selectedIndex > 100 ? selectedIndex - 100 : 0;
+                    int endIndex = selectedIndex < items.size() - 100 ? selectedIndex + 100 : items.size();
+                    int newSelectedItem = items.subList(startIndex, endIndex).indexOf(as[j1]) + startIndex; 
+                    selectedItem = newSelectedItem == -1 ? selectedItem : newSelectedItem; 
                 } else {
                     canvas.clipRect(0, 0, mViewWidth, (int) (itemHeight));
                     canvas.drawText(as[j1], mViewWidth / 2, maxTextHeight, paintOuterText);
