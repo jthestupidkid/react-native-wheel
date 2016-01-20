@@ -303,7 +303,6 @@ public class LoopView extends View {
                 startTime = System.currentTimeMillis();
                 cancelFuture();
                 previousY = event.getRawY();
-                totalScrollY = 0;
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -485,6 +484,7 @@ public class LoopView extends View {
     }
 
     protected final void onItemSelected() {
+        totalScrollY = 0;
         if (onItemSelectedListener != null) {
             postDelayed(new OnItemSelectedRunnable(this), 200L);
         }
