@@ -36,16 +36,16 @@ class InertiaTimerTask extends TimerTask {
         int i = (int) ((a * 10F) / 1000F);
         LoopView loopview = loopView;
         loopview.totalScrollY = loopview.totalScrollY - i;
-        if (!loopView.isLoop) {
-            float itemHeight = loopView.lineSpacingMultiplier * loopView.maxTextHeight;
-            if (loopView.totalScrollY <= (int) ((float) (-loopView.selectedIndex) * itemHeight)) {
-                a = 40F;
-                loopView.totalScrollY = (int) ((float) (-loopView.selectedIndex) * itemHeight);
-            } else if (loopView.totalScrollY >= (int) ((float) (loopView.items.size() - 1 - loopView.selectedIndex) * itemHeight)) {
-                loopView.totalScrollY = (int) ((float) (loopView.items.size() - 1 - loopView.selectedIndex) * itemHeight);
-                a = -40F;
-            }
-        }
+        // if (!loopView.isLoop) {
+        //     float itemHeight = loopView.lineSpacingMultiplier * loopView.maxTextHeight;
+        //     if (loopView.totalScrollY <= (int) ((float) (-loopView.selectedIndex) * itemHeight)) {
+        //         a = 40F;
+        //         loopView.totalScrollY = (int) ((float) (-loopView.selectedIndex) * itemHeight);
+        //     } else if (loopView.totalScrollY >= (int) ((float) (loopView.items.size() - 1 - loopView.selectedIndex) * itemHeight)) {
+        //         loopView.totalScrollY = (int) ((float) (loopView.items.size() - 1 - loopView.selectedIndex) * itemHeight);
+        //         a = -40F;
+        //     }
+        // }
         if (a < 0.0F) {
             a = a + 20F;
         } else {

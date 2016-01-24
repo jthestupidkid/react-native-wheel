@@ -354,7 +354,7 @@ public class LoopView extends View {
             } else {
                 mOffset = -mOffset;
             }
-            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
+            mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 16, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -422,7 +422,7 @@ public class LoopView extends View {
 
     public void snapTo(final int targetItem) {
       if (selectedItem != targetItem) {
-        new CountDownTimer(200, 200){
+        new CountDownTimer(16, 16){
           public void onTick(long millis){
           }
           public void onFinish(){
@@ -437,7 +437,7 @@ public class LoopView extends View {
     protected final void scrollBy(float velocityY) {
         cancelFuture();
 
-        int velocityFling = 20;
+        int velocityFling = 16;
         mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
     }
 
@@ -486,7 +486,7 @@ public class LoopView extends View {
     protected final void onItemSelected() {
         totalScrollY = 0;
         if (onItemSelectedListener != null) {
-            postDelayed(new OnItemSelectedRunnable(this), 200L);
+            postDelayed(new OnItemSelectedRunnable(this), 16L);
         }
     }
 }
