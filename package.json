@@ -1,22 +1,67 @@
 {
-  "name": "react-native-wheel",
-  "version": "0.0.1",
-  "description": "android wheel view for react-native",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "_args": [
+    [
+      "react-native-wheel@github:fixt/react-native-wheel",
+      "/Users/jjrugalino/Desktop/dev/sideline/node_modules/react-native-date-time-picker"
+    ]
+  ],
+  "_from": "fixt/react-native-wheel",
+  "_id": "react-native-wheel@0.0.1",
+  "_inCache": true,
+  "_location": "/react-native-wheel",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/fixt/react-native-wheel/master/package.json",
+      "gitUrl": "git://github.com/fixt/react-native-wheel.git",
+      "httpsUrl": "git+https://github.com/fixt/react-native-wheel.git",
+      "shortcut": "github:fixt/react-native-wheel",
+      "ssh": "git@github.com:fixt/react-native-wheel.git",
+      "sshUrl": "git+ssh://git@github.com/fixt/react-native-wheel.git",
+      "type": "github"
+    },
+    "name": "react-native-wheel",
+    "raw": "react-native-wheel@github:fixt/react-native-wheel",
+    "rawSpec": "github:fixt/react-native-wheel",
+    "scope": null,
+    "spec": "github:fixt/react-native-wheel",
+    "type": "hosted"
   },
+  "_requiredBy": [
+    "/react-native-date-time-picker"
+  ],
+  "_resolved": "git://github.com/fixt/react-native-wheel.git#e11d2eeff7e0547ffe9c719493614f701b4a217a",
+  "_shasum": "85c79569a67d4a2aad369dca4fa94ec0bf5cc851",
+  "_shrinkwrap": null,
+  "_spec": "react-native-wheel@github:fixt/react-native-wheel",
+  "_where": "/Users/jjrugalino/Desktop/dev/sideline/node_modules/react-native-date-time-picker",
+  "author": {
+    "name": "heng and Isaac Madwed"
+  },
+  "bugs": {
+    "url": "https://github.com/fixt/react-native-wheel/issues"
+  },
+  "dependencies": {},
+  "description": "android wheel view for react-native",
+  "devDependencies": {},
+  "gitHead": "e11d2eeff7e0547ffe9c719493614f701b4a217a",
+  "homepage": "https://github.com/fixt/react-native-wheel#readme",
+  "installable": true,
+  "keywords": [
+    "react-native-wheel"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "react-native-wheel",
+  "optionalDependencies": {},
+  "readme": "# react-native-wheel\r\nthe android wheel view for react-native component\r\n\r\n## Installation and How to use\r\n\r\n#### Step 1 - NPM Install\r\n\r\n```shell\r\nnpm install --save react-native-wheel\r\n```\r\n#### Step 2 - Update Gradle Settings\r\n\r\n```gradle\r\n// file: android/settings.gradle\r\n...\r\n\r\ninclude ':reactwheelview', ':app' \r\nproject(':reactwheelview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wheel')\r\n // if there are more library\r\n // include ':app' , ':libraryone' , ':librarytwo' , 'more...'\r\n // project(':libraryonename').projectDir = new File(rootProject.projectDir, '../node_modules/libraryonemodule')\r\n // project(':librarytwoname').projectDir = new File(rootProject.projectDir, '../node_modules/librarytwomodule')\r\n // more..\r\n```\r\n\r\n#### Step 3 - Update app Gradle Build\r\n\r\n```gradle\r\n// file: android/app/build.gradle\r\n...\r\n\r\ndependencies {\r\n    ...\r\n    compile project(':reactwheelview')\r\n}\r\n```\r\n\r\n#### Step 4 - Register React Package\r\n\r\n```java\r\n...\r\nimport co.fixt.wheel.WheelPackage;\r\n\r\npublic class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {\r\n\r\n    private ReactInstanceManager mReactInstanceManager;\r\n    private ReactRootView mReactRootView;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        mReactRootView = new ReactRootView(this);\r\n        mReactInstanceManager = ReactInstanceManager.builder()\r\n                .setApplication(getApplication())\r\n                .setBundleAssetName(\"index.android.bundle\")\r\n                .setJSMainModuleName(\"index.android\")\r\n                .addPackage(new MainReactPackage())\r\n                .addPackage(new WheelPackage()) // register wheel package\r\n                .setUseDeveloperSupport(BuildConfig.DEBUG)\r\n                .setInitialLifecycleState(LifecycleState.RESUMED)\r\n                .build();\r\n        mReactRootView.startReactApplication(mReactInstanceManager, \"AwesomeProject\", null);\r\n        setContentView(mReactRootView);\r\n    }\r\n...\r\n\r\n```\r\n\r\n#### Step 5 - Require and use in Javascript\r\n\r\n```js\r\n// file: index.android.js\r\n\r\n'use strict';\r\n\r\nvar React = require('react-native');\r\nvar {\r\n  AppRegistry,\r\n  StyleSheet,\r\n  Text,\r\n  ToastAndroid,\r\n  View,\r\n} = React;\r\n\r\nvar WheelView = require('react-native-wheel');\r\n\r\nvar Dimensions = require('Dimensions');\r\n\r\n\r\nvar SCREEN_WIDTH = Dimensions.get('window').width;\r\nvar SCREEN_HEIGHT = Dimensions.get('window').height;\r\n\r\n\r\nvar wheelData = ['one','two','three','four','five','six','seven','eight','nine','ten'];\r\n\r\nvar currentIndex;\r\n\r\nvar AwesomeProject = React.createClass({\r\n  previous(){\r\n    this.refs.wheel.previous();\r\n  },\r\n  next(){\r\n    this.refs.wheel.next();\r\n  },\r\n  finish(){\r\n    ToastAndroid.show('select item : ' + wheelData[currentIndex] ,ToastAndroid.LONG);\r\n  },\r\n  onItemChange(index){\r\n    currentIndex = index;\r\n  },\r\n  render: function() {\r\n    return (\r\n      <View style={styles.container}>\r\n        <Text style={styles.welcome} onPress={this.previous} >\r\n          上一个\r\n        </Text>\r\n        <Text style={styles.instructions} onPress={this.next} >\r\n          下一个\r\n        </Text>\r\n        <Text style={styles.instructions} onPress={this.finish} >\r\n          完成\r\n        </Text>\r\n        <WheelView\r\n          style={styles.wheelview}\r\n          onItemChange={this.onItemChange}\r\n          values={wheelData}\r\n          isLoop={false}\r\n          selectedIndex={0}\r\n          textSize={20}\r\n          ref='wheel'\r\n        />\r\n      </View>\r\n    );\r\n  }\r\n});\r\n\r\nvar styles = StyleSheet.create({\r\n  container: {\r\n    flex: 1,\r\n    justifyContent: 'flex-end',\r\n    alignItems: 'center',\r\n    backgroundColor: '#F5FCFF',\r\n  },\r\n  previous: {\r\n    margin: 20,\r\n    fontSize: 22,\r\n    color: '#000000',\r\n  },\r\n  next: {\r\n    margin: 20,\r\n    color: '#000000',\r\n    fontSize: 22,\r\n  },\r\n  finish: {\r\n    margin: 20,\r\n    color: '#000000',\r\n    fontSize: 22,\r\n  },\r\n  wheelview: {\r\n    width: SCREEN_WIDTH,\r\n    height: SCREEN_HEIGHT/5*2,\r\n  },\r\n});\r\n\r\nAppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);\r\n\r\n```\r\n\r\n\r\n## Notes\r\n\r\n- Only in the following versions tested , other versions do not guarantee success\r\n```gradle\r\n// file: react-native-wheel/build.gradle\r\n\r\nandroid {\r\n    compileSdkVersion 23  //@\r\n    buildToolsVersion \"23.0.1\"  //@\r\n\r\n    defaultConfig {\r\n        minSdkVersion 16 \r\n        targetSdkVersion 22  //@\r\n    }\r\n}\r\n\r\ndependencies {\r\n    compile 'com.facebook.react:react-native:0.16.1'  //@\r\n}\r\n\r\n\r\n```\r\n\r\n## Reference\r\nhttps://github.com/weidongjian/androidWheelView\r\n\r\n## Run Renderings\r\n<center>\r\n    <img src=\"https://github.com/fixt/react-native-wheel/blob/master/Screenshot/wheel.gif\"\r\n    width=\"300\" height=\"450\"/>\r\n</center>\r\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fixt/react-native-wheel.git"
   },
-  "keywords": [
-    "react-native-wheel"
-  ],
-  "author": "heng and Isaac Madwed",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/fixt/react-native-wheel/issues"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/fixt/react-native-wheel#readme"
+  "version": "0.0.1"
 }

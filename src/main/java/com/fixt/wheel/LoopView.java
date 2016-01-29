@@ -455,6 +455,7 @@ public class LoopView extends View {
     public void setTextSize(float size) {
         if (size > 0.0F) {
             textSize = (int) (context.getResources().getDisplayMetrics().density * size);
+            maxTextHeight = textSize + 5;
             paintOuterText.setTextSize(textSize);
             paintCenterText.setTextSize(textSize);
         }

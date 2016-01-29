@@ -44,9 +44,9 @@ var WheelView = React.createClass({
         );
     },
     componentWillReceiveProps(nextProps){
-      //if (nextProps.selectedIndex !== this.props.selectedIndex) {
+      if (nextProps.selectedIndex !== this.props.selectedIndex) {
         this.snapTo(nextProps.selectedIndex);
-      //}
+      }
     },
     render(){
         return <NativeWheelView {...this.props} onChange={this.handleOnChange} ref={WHEELVIEW_REF}/>;
